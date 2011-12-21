@@ -13,13 +13,14 @@ function getElementByXPath(expr, node)
   return document.evaluate(expr, node, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
 
-button = document.createElement("g:plusone"); 
+var button = document.createElement("g:plusone"); 
 button.setAttribute("size", "medium");
-plusone = document.createElement("li");
+
+var plusone = document.createElement("li");
 plusone.setAttribute("class", "plusone");
 plusone.appendChild(button);
 
-container = getElementByXPath("//ul[@class='pagehead-actions']", document);
+var container = getElementByXPath("//ul[@class='pagehead-actions']", document);
 container.insertBefore(plusone, container.firstChild);
 
 var style = document.createElement("style");
@@ -32,6 +33,6 @@ po.type = "text/javascript";
 po.async = true;
 po.src = "https://apis.google.com/js/plusone.js";
 
-var head = document.getElementsByTagName("head")[0];
+var head = document.head;
 head.appendChild(po);
 head.appendChild(style);
