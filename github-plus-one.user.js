@@ -7,12 +7,18 @@
 // @exclude        https://github.com/
 // @exclude        http://github.com/*/*/*
 // @exclude        https://github.com/*/*/*
-// @version        0.2
+// @version        0.3
 // ==/UserScript==
 
 function getElementByXPath(expr, node)
 {
   return document.evaluate(expr, node, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+}
+
+function hasClass(ele, cls)
+{
+  if(!ele) return false;
+  return ele.className ? ele.className.split(" ").indexOf(cls) >= 0 : false;
 }
 
 function insertPlusOne(node)
@@ -29,16 +35,9 @@ function insertPlusOne(node)
   document.head.appendChild(po);
 }
 
-var pagehead = getElementByXPath("//ul[@class='pagehead-actions']", document);
-if(pagehead)
+var pagehead = getElementByXPath("//div[contains(@class, 'pagehead')]", document);
+
+if(hasClass(pagehead, "repohead") || hasClass(pagehead, "userpage"))
 {
-  var nodes = pagehead.parentNode.childNodes;
-  for (var i = 0; i < nodes.length; i++)
-  {
-    if(nodes[i].nodeType == 1)
-    {
-      insertPlusOne(nodes[i]);
-      break;
-    }
-  }
+  insertPlusOne(pagehead.getElementsByTagName("h1")[0]);
 }
